@@ -9,7 +9,7 @@
 # ------------------------------- Main source started -------------------------------
 #
 # Modify default theme（FROM uci-theme-bootstrap CHANGE TO luci-theme-material）
-sed -i 's/luci-theme-bootstrap/luci-theme-material/g' ./feeds/luci/collections/luci/Makefile
+# sed -i 's/luci-theme-bootstrap/luci-theme-material/g' ./feeds/luci/collections/luci/Makefile
 
 # Add autocore support for armvirt
 # sed -i 's/TARGET_rockchip/TARGET_rockchip\|\|TARGET_armvirt/g' package/lean/autocore/Makefile
@@ -19,11 +19,11 @@ sed -i 's/luci-theme-bootstrap/luci-theme-material/g' ./feeds/luci/collections/l
 # echo "DISTRIB_SOURCECODE='lede'" >>package/base-files/files/etc/openwrt_release
 
 # Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.31.4）
-sed -i 's/192.168.1.1/192.168.19.1/g' package/base-files/files/bin/config_generate
-sed -i "s/'OpenWrt'/'Phicomm'/g" package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.3.1/g' package/base-files/files/bin/config_generate
+# sed -i "s/'OpenWrt'/'Phicomm'/g" package/base-files/files/bin/config_generate
 
 #Modify ssid
-sed -i 's/OpenWrt/OpenWrt_5G/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
+# sed -i 's/OpenWrt/OpenWrt_5G/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 # Modify default root's password（FROM 'password'[$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.] CHANGE TO 'your password'）
 # sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 
@@ -50,15 +50,15 @@ sed -i 's/OpenWrt/OpenWrt_5G/g' package/kernel/mac80211/files/lib/wifi/mac80211.
 # rm -rf package/helloworld
 # git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
 
-git clone https://github.com/kenzok8/small package/small
-git clone https://github.com/kenzok8/openwrt-packages package/open-packages
-rm -rf package/open-packages/luci-app-filebrowser
-git clone https://github.com/xiaozhuai/luci-app-filebrowser.git package/luci-app-filebrowser
-git clone https://github.com/lisaac/luci-app-diskman.git package/luci-app-diskman
-git clone https://github.com/cokebar/luci-app-vlmcsd.git package/luci-app-vlmcsd
-git clone https://github.com/cokebar/openwrt-vlmcsd.git package/openwrt-vlmcsd
+# git clone https://github.com/kenzok8/small package/small
+# git clone https://github.com/kenzok8/openwrt-packages package/open-packages
+# rm -rf package/open-packages/luci-app-filebrowser
+# git clone https://github.com/xiaozhuai/luci-app-filebrowser.git package/luci-app-filebrowser
+# git clone https://github.com/lisaac/luci-app-diskman.git package/luci-app-diskman
+# git clone https://github.com/cokebar/luci-app-vlmcsd.git package/luci-app-vlmcsd
+# git clone https://github.com/cokebar/openwrt-vlmcsd.git package/openwrt-vlmcsd
 # git clone https://github.com/lisaac/luci-app-dockerman.git package/luci-app-dockerman
-git clone https://github.com/rufengsuixing/luci-app-zerotier.git package/luci-app-zerotier
+# git clone https://github.com/rufengsuixing/luci-app-zerotier.git package/luci-app-zerotier
 # git clone https://github.com/lxiaya/openwrt-homeproxy.git package/luci-app-homeproxy
 # git clone https://github.com/libremesh/lime-packages.git package/lime-packages
 # Add third-party software packages (Specify the package)
