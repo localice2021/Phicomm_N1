@@ -21,6 +21,7 @@
 # Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.31.4）
 sed -i 's/192.168.1.1/192.168.3.1/g' package/base-files/files/bin/config_generate
 # sed -i "s/'OpenWrt'/'Phicomm'/g" package/base-files/files/bin/config_generate
+# sed -i 's/0x4000000/0x7000000/g' target/linux/mediatek/dts/mt7981b-cudy-tr3000-v1.dts
 
 #Modify ssid
 # sed -i 's/OpenWrt/OpenWrt_5G/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
