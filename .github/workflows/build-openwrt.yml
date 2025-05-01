@@ -103,7 +103,14 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-        
+    - name: Copy custom files
+      run: |
+        cp $GITHUB_WORKSPACE/ubootmod/459-add-cudy_tr3000-v1.patch openwrt/package/boot/uboot-mediatek/patches/
+        cp $GITHUB_WORKSPACE/ubootmod/filogic.mk openwrt/target/linux/mediatek/image/
+        cp $GITHUB_WORKSPACE/ubootmod/mt7981b-cudy-tr3000-v1-ubootmod.dts openwrt/target/linux/mediatek/dts/
+        cp $GITHUB_WORKSPACE/ubootmod/mt7981b-cudy-tr3000-v1.dts openwrt/target/linux/mediatek/dts/
+        cp $GITHUB_WORKSPACE/ubootmod/mt7981b-cudy-tr3000-v1.dtsi openwrt/target/linux/mediatek/dts/
+
     - name: Compile the firmware
       id: compile
       run: |
