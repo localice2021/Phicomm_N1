@@ -127,7 +127,7 @@ jobs:
       id: organize
       if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
+        cd openwrt/bin/package/*/*
         # rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT        
@@ -140,7 +140,7 @@ jobs:
         path: |
           ${{ env.FIRMWARE }}/*.manifest
           ${{ env.FIRMWARE }}/*.buildinfo
-          ${{ env.FIRMWARE }}/*-efi.img.gz
+          ${{ env.FIRMWARE }}/*.ipk
         
     - name: Generate release tag
       id: tag
