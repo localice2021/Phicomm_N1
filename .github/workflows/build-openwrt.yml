@@ -110,7 +110,8 @@ jobs:
         cp $GITHUB_WORKSPACE/ubootmod/mt7981b-cudy-tr3000-v1-ubootmod.dts openwrt/target/linux/mediatek/dts/
         cp $GITHUB_WORKSPACE/ubootmod/mt7981b-cudy-tr3000-v1.dts openwrt/target/linux/mediatek/dts/
         cp $GITHUB_WORKSPACE/ubootmod/mt7981b-cudy-tr3000-v1.dtsi openwrt/target/linux/mediatek/dts/
-
+        cp $GITHUB_WORKSPACE/ubootmod/mt7981b-abt-asr3000-ubootmod.dts openwrt/target/linux/mediatek/dts/
+        
     - name: Compile the firmware
       id: compile
       run: |
