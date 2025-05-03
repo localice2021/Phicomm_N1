@@ -28,7 +28,13 @@ on:
         options:
          - 'false'
          - 'true'
-
+      COPY_CUSTOM:
+        required: false
+        default: 'false'
+        type: choice
+        options:
+         - 'false'
+         - 'true'
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-23.05
@@ -104,6 +110,7 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
     - name: Copy custom files
+      if: (COPY_CUSTOM)
       run: |
         cp $GITHUB_WORKSPACE/ubootmod/459-add-cudy_tr3000-v1.patch openwrt/package/boot/uboot-mediatek/patches/
         cp $GITHUB_WORKSPACE/ubootmod/filogic.mk openwrt/target/linux/mediatek/image/
