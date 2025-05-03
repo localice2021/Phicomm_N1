@@ -31,7 +31,7 @@ on:
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-23.05
+  REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config
   DIY_P1_SH: diy-part1.sh
@@ -127,6 +127,8 @@ jobs:
         cd openwrt/bin/targets/*/*
         # rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        cd .. && cd .. && cd ..
+        echo "PACKAGE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT        
         
     - name: Upload firmware directory
@@ -157,7 +159,7 @@ jobs:
           * Firmware information
           Default IP: 192.168.19.1
           Default username: root
-        artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin,${{ env.FIRMWARE }}/*vsftpd*.ipk,${{ env.FIRMWARE }}/*.itb        
+        artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin,${{ env.PACKAGE }}/packages/*/*/*vsftpd*.ipk,${{ env.PACKAGE }}/packages/*/*/*vlmcsd*.ipk        
     - name: Clean up server space
       if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
       run: |
