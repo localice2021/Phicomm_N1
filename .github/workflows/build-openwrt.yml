@@ -71,7 +71,7 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         # git clone https://git.openwrt.org/openwrt/openwrt.git
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        cd openwrt
+        # cd openwrt
         # git checkout v23.05.2
         
     - name: Load custom feeds
@@ -124,11 +124,10 @@ jobs:
       id: organize
       if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
+        # cd openwrt/bin/targets/*/*
         # rm -rf packages
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        cd .. && cd .. && cd ..
-        echo "PACKAGE=$PWD" >> $GITHUB_ENV
+        echo "FIRMWARE=$GITHUB_WORKSPACE/openwrt/bin/targets/*/*" >> $GITHUB_ENV
+        echo "PACKAGE=$GITHUB_WORKSPACE/openwrt/bin/packages/*/*" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT        
         
     - name: Upload firmware directory
@@ -159,7 +158,7 @@ jobs:
           * Firmware information
           Default IP: 192.168.19.1
           Default username: root
-        artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin,${{ env.PACKAGE }}/packages/*/*/*vsftpd*.ipk,${{ env.PACKAGE }}/packages/*/*/*vlmcsd*.ipk        
+        artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin,${{ env.PACKAGE }}/*vsftpd*.ipk,${{ env.PACKAGE }}/*vlmcsd*.ipk,${{ env.PACKAGE }}/*zero*.ipk
     - name: Clean up server space
       if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
       run: |
