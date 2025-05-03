@@ -158,7 +158,7 @@ jobs:
           * Firmware information
           Default IP: 192.168.19.1
           Default username: root
-        artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin,${{ env.FIRMWARE }}/*.itb,${{ env.PACKAGE }}/*vsftpd*.ipk,${{ env.PACKAGE }}/*vlmcsd*.ipk,${{ env.PACKAGE }}/*zero*.ipk
+        artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin,${{ env.FIRMWARE }}/*.itb,${{ env.PACKAGE }}/*vsftpd*.ipk,${{ env.PACKAGE }}/*vlmcsd*.ipk,${{ env.PACKAGE }}/*filet*.ipk,${{ env.PACKAGE }}/*zero*.ipk
     - name: Clean up server space
       if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
       run: |
