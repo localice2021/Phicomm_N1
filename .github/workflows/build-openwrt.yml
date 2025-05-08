@@ -63,6 +63,16 @@ jobs:
           sudo chown ${USER}:${GROUPS} /workdir
           sudo timedatectl set-timezone "${TZ}"
           echo "status=success" >> ${GITHUB_OUTPUT}
+    - name: Cache toolchain and ccache
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.ccache
+          staging_dir/toolchain*
+          build_dir/toolchain*
+        key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
+        restore-keys: |
+          ${{ runner.os }}-openwrt-cache-          
         
     - name: Clone source code
       working-directory: /workdir
