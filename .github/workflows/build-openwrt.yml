@@ -70,7 +70,8 @@ jobs:
           ~/.ccache
           staging_dir/toolchain*
           build_dir/toolchain*
-        key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
+        # key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
+        key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('feeds.conf.default') }}
         restore-keys: |
           ${{ runner.os }}-openwrt-cache-          
         
