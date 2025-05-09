@@ -172,17 +172,17 @@ jobs:
           Default username: root
         artifacts: ${{ env.FIRMWARE }}/*tr3000*
         # ,${{ env.PACKAGE }}/*vsftpd*,${{ env.PACKAGE }}/*vlmcsd*,${{ env.PACKAGE }}/*zero*    
-    - name: Clean up server space
-      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
-      run: |
-        cd openwrt/
-        rm -rf $(ls . | grep -v "^bin$" | xargs) 2>/dev/null
-        df -hT ${PWD}    
+    # - name: Clean up server space
+      # if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
+      # run: |
+        # cd openwrt/
+        # rm -rf $(ls . | grep -v "^bin$" | xargs) 2>/dev/null
+        # df -hT ${PWD}    
           
-    - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@v2
-      with:
-        token: ${{ github.token }}
-        repository: ${{ github.repository }}
-        retain_days: 30
-        keep_minimum_runs: 6  
+    # - name: Delete workflow runs
+      # uses: Mattraks/delete-workflow-runs@v2
+      # with:
+        # token: ${{ github.token }}
+        # repository: ${{ github.repository }}
+        # retain_days: 30
+        # keep_minimum_runs: 6  
