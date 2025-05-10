@@ -23,7 +23,7 @@ on:
          - 'true'
       UPLOAD_RELEASE:
         required: false
-        default: 'true'
+        default: 'false'
         type: choice
         options:
          - 'false'
