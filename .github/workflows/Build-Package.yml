@@ -110,8 +110,8 @@ jobs:
         path: |
           ~/.ccache
           # $GITHUB_WORKSPACE/openwrt/toolchain*
-          staging_dir/toolchain*
-          build_dir/host/*
+          $GITHUB_WORKSPACE/openwrt/staging_dir/toolchain*
+          $GITHUB_WORKSPACE/openwrt/build_dir/host/*
           key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
         # key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('feeds.conf.default') }}
         restore-keys: |
