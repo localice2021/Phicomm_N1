@@ -73,7 +73,23 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         # cd openwrt
         # git checkout v23.05.2
+    - name: Restore cached Primes
+      id: cache-primes-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          $GITHUB_WORKSPACE/openwrt/build_dir/host
+          $GITHUB_WORKSPACE/openwrt/staging_dir/toolchain*
+        key: ${{ runner.os }}-primes
         
+    - name: Save Primes
+      id: cache-primes-save
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          $GITHUB_WORKSPACE/openwrt/build_dir/host
+          $GITHUB_WORKSPACE/openwrt/staging_dir/toolchain*
+        key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}        
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
@@ -104,18 +120,7 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
-    - name: Cache toolchain and ccache
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.ccache
-          # $GITHUB_WORKSPACE/openwrt/toolchain*
-          $GITHUB_WORKSPACE/openwrt/staging_dir/toolchain*
-          $GITHUB_WORKSPACE/openwrt/build_dir/host/*
-          key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
-        # key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('feeds.conf.default') }}
-        restore-keys: |
-          ${{ runner.os }}-openwrt-cache-     
+   
     - name: Compile the firmware
       id: compile
       run: |
@@ -135,45 +140,6 @@ jobs:
     - name: Check space usage
       if: (!cancelled())
       run: df -hT
-
-
-    - name: Organize files
-      id: organize
-      if: steps.compile.outputs.status == 'success' && !cancelled()
-      run: |
-        cd openwrt/bin/package/*/*
-        # rm -rf packages
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "status=success" >> $GITHUB_OUTPUT        
-        
-    - name: Upload firmware directory
-      uses: actions/upload-artifact@main
-      if: github.event.inputs.UPLOAD_FIRMWARE == 'true' && !cancelled()
-      with:
-        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: |
-          ${{ env.FIRMWARE }}/*.manifest
-          ${{ env.FIRMWARE }}/*.buildinfo
-          ${{ env.FIRMWARE }}/*.ipk
-        
-    - name: Generate release tag
-      id: tag
-      if: steps.organize.outputs.status == 'success' && github.event.inputs.UPLOAD_RELEASE == 'true' && !cancelled()
-      run: |
-        echo "release_tag=$(date +"%Y.%m.%d-%H%M")"-${{ github.ref_name }} >> $GITHUB_OUTPUT        
-        touch release.txt
-        echo "status=success" >> $GITHUB_OUTPUT        
-        
-    - name: Upload firmware to release
-      uses:  ncipollo/release-action@main
-      if: steps.tag.outputs.status == 'success' && !cancelled()
-      with:
-        tag: ${{ steps.tag.outputs.release_tag }}
-        body: |
-          This is OpenWrt firmware for Amlogic N1 box
-          * Firmware information
-          Default IP: 192.168.19.1
-          Default username: root
-        artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin,${{ env.FIRMWARE }}/*vsftpd*.ipk,${{ env.FIRMWARE }}/*.itb        
+      
  
 
