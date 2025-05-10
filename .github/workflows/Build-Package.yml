@@ -78,8 +78,8 @@ jobs:
       uses: actions/cache/restore@v4
       with:
         path: |
-          $GITHUB_WORKSPACE/openwrt/build_dir/host
-          $GITHUB_WORKSPACE/openwrt/staging_dir/toolchain*
+          $GITHUB_WORKSPACE/openwrt/build_dir/host/*
+          $GITHUB_WORKSPACE/openwrt/staging_dir/toolchain-*
         key: ${{ runner.os }}-primes
         
     - name: Save Primes
@@ -87,8 +87,9 @@ jobs:
       uses: actions/cache/save@v4
       with:
         path: |
-          $GITHUB_WORKSPACE/openwrt/build_dir/host
-          $GITHUB_WORKSPACE/openwrt/staging_dir/toolchain*
+          # $GITHUB_WORKSPACE/openwrt/.ccache
+          $GITHUB_WORKSPACE/openwrt/build_dir/host/*
+          $GITHUB_WORKSPACE/openwrt/staging_dir/toolchain-*
         key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}        
     - name: Load custom feeds
       run: |
