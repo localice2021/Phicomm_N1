@@ -121,7 +121,9 @@ jobs:
         cd openwrt
         # echo -e "$(nproc) thread compile"
         # make -j$(nproc) || make -j1 || make -j1 V=s
-        echo "CCACHE_DIR=$GITHUB_WORKSPACE/.ccache" >> $GITHUB_ENV        
+        echo "CCACHE_DIR=$GITHUB_WORKSPACE/.ccache" >> $GITHUB_ENV
+        make tools/install
+        make toolschain/install
         make package/luci-app-unblockneteasemusic/compile V=s
         make package/luci-app-vsftpd/compile
         echo "status=success" >> $GITHUB_OUTPUT
