@@ -172,18 +172,5 @@ jobs:
           Default IP: 192.168.19.1
           Default username: root
         artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin,${{ env.FIRMWARE }}/*vsftpd*.ipk,${{ env.FIRMWARE }}/*.itb        
-    - name: Clean up server space
-      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
-      run: |
-        cd openwrt/
-        rm -rf $(ls . | grep -v "^bin$" | xargs) 2>/dev/null
-        df -hT ${PWD}    
-          
-    - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@v2
-      with:
-        token: ${{ github.token }}
-        repository: ${{ github.repository }}
-        retain_days: 30
-        keep_minimum_runs: 6  
+ 
 
