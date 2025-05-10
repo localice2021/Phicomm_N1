@@ -73,24 +73,16 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         # cd openwrt
         # git checkout v23.05.2
-    - name: Restore cached Primes
-      id: cache-primes-restore
-      uses: actions/cache/restore@v4
+    - name: Cache toolchain and ccache
+      uses: actions/cache@v3
       with:
         path: |
-          $GITHUB_WORKSPACE/openwrt/build_dir/host/*
-          $GITHUB_WORKSPACE/openwrt/staging_dir/toolchain-*
-        key: ${{ runner.os }}-primes
-        
-    - name: Save Primes
-      id: cache-primes-save
-      uses: actions/cache/save@v4
-      with:
-        path: |
-          # $GITHUB_WORKSPACE/openwrt/.ccache
-          $GITHUB_WORKSPACE/openwrt/build_dir/host/*
-          $GITHUB_WORKSPACE/openwrt/staging_dir/toolchain-*
-        key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}        
+          ~/openwrt/.ccache
+          openwrt/staging_dir
+          openwrt/build_dir
+        key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
+        restore-keys: |
+          ${{ runner.os }}-openwrt-cache-      
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
