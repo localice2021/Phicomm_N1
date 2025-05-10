@@ -68,8 +68,8 @@ jobs:
       with:
         path: |
           ~/.ccache
-          staging_dir/toolchain*
-          build_dir/toolchain*
+          # $GITHUB_WORKSPACE/openwrt/toolchain*
+          $GITHUB_WORKSPACE/openwrt/tool*
         key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
         # key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('feeds.conf.default') }}
         restore-keys: |
@@ -82,8 +82,8 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         # git clone https://git.openwrt.org/openwrt/openwrt.git
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        cd openwrt
-        git checkout v24.10.1
+        # cd openwrt
+        # git checkout v24.10.1
         
     - name: Load custom feeds
       run: |
