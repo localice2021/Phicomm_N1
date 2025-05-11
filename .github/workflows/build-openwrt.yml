@@ -72,8 +72,8 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         # git clone https://git.openwrt.org/openwrt/openwrt.git
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        # cd openwrt
-        # git checkout v24.10.1
+        cd openwrt
+        git checkout v24.10.1
 
         
     - name: Load custom feeds
@@ -96,16 +96,7 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-    - name: Cache toolchain and ccache
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/openwrt/.ccache
-          openwrt/staging_dir
-          openwrt/build_dir
-        key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
-        restore-keys: |
-          ${{ runner.os }}-openwrt-cache- 
+
     
     - name: Download package
       id: package
@@ -116,6 +107,17 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
         
+    - name: Cache toolchain and ccache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/openwrt/.ccache
+          openwrt/staging_dir
+          openwrt/build_dir
+        key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
+        restore-keys: |
+          ${{ runner.os }}-openwrt-cache- 
+          
     - name: Compile the firmware
       id: compile
       run: |
