@@ -75,16 +75,7 @@ jobs:
         # cd openwrt
         # git checkout v24.10.1
 
-    - name: Cache toolchain and ccache
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/openwrt/.ccache
-          openwrt/staging_dir
-          openwrt/build_dir
-        key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
-        restore-keys: |
-          ${{ runner.os }}-openwrt-cache- 
+
         
     - name: Load custom feeds
       run: |
@@ -107,6 +98,16 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
+    - name: Cache toolchain and ccache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/openwrt/.ccache
+          openwrt/staging_dir
+          openwrt/build_dir
+        key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
+        restore-keys: |
+          ${{ runner.os }}-openwrt-cache- 
     
     - name: Download package
       id: package
