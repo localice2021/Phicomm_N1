@@ -101,7 +101,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ~/openwrt/.ccache
+          # ~/openwrt/.ccache
           openwrt/staging_dir
           openwrt/build_dir
         key: ${{ runner.os }}-openwrt-cache-${{ hashFiles('.config', 'feeds.conf.default') }}
@@ -125,9 +125,9 @@ jobs:
         # echo -e "$(nproc) thread compile"
         # make -j$(nproc) || make -j1 || make -j1 V=s
         echo "CCACHE_DIR=$GITHUB_WORKSPACE/openwrt/.ccache" >> $GITHUB_ENV
-        # make tools/install 
-        # make toolchain/install 
-        make package/luci-app-unblockneteasemusic/compile V=s
+        make tools/install 
+        make toolchain/install 
+        # make package/luci-app-unblockneteasemusic/compile V=s
         # make package/luci-app-vsftpd/compile
         echo "status=success" >> $GITHUB_OUTPUT
         #grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
