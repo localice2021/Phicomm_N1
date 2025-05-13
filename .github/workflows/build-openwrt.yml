@@ -133,7 +133,7 @@ jobs:
         # cd openwrt/bin/targets/*/*
         # rm -rf packages
         echo "FIRMWARE=$GITHUB_WORKSPACE/openwrt/bin/targets/*/*" >> $GITHUB_ENV
-        echo "PACKAGE=$GITHUB_WORKSPACE/openwrt/bin/packages/*/*/*" >> $GITHUB_ENV
+        echo "PACKAGE=$GITHUB_WORKSPACE/openwrt/bin/packages/*/*" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT        
         
     - name: Upload firmware directory
@@ -164,8 +164,7 @@ jobs:
           * Firmware information
           Default IP: 192.168.19.1
           Default username: root
-        artifacts: ${{ env.FIRMWARE }}/*tr3000*
-        # ,${{ env.PACKAGE }}/*vsftpd*,${{ env.PACKAGE }}/*vlmcsd*,${{ env.PACKAGE }}/*zero*    
+        artifacts: ${{ env.FIRMWARE }}/*tr3000*,${{ env.PACKAGE }}/*vlmcsd*,${{ env.PACKAGE }}/*zero*    
     - name: Clean up server space
       if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
       run: |
