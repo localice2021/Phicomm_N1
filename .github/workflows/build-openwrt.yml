@@ -69,7 +69,7 @@ jobs:
       run: |
         df -hT $PWD
         # git clone -b $REPO_BRANCH --single-branch --filter=blob:none $REPO_URL openwrt
-        git clone git clone https://github.com/coolsnowwolf/lede openwrt
+        git clone ttps://github.com/coolsnowwolf/lede openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         # cd openwrt
         # git checkout v23.05.2
