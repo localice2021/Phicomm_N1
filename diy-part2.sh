@@ -19,7 +19,7 @@
 # echo "DISTRIB_SOURCECODE='lede'" >>package/base-files/files/etc/openwrt_release
 
 # Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.31.4）
-sed -i 's/192.168.1.1/192.168.3.1/g' package/base-files/files/bin/config_generate
+# sed -i 's/192.168.1.1/192.168.3.1/g' package/base-files/files/bin/config_generate
 # sed -i "s/'OpenWrt'/'Phicomm'/g" package/base-files/files/bin/config_generate
 # sed -i 's/0x4000000/0x7000000/g' target/linux/mediatek/dts/mt7981b-cudy-tr3000-v1.dts
 
@@ -52,14 +52,14 @@ sed -i 's/192.168.1.1/192.168.3.1/g' package/base-files/files/bin/config_generat
 # git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
 
 git clone https://github.com/kenzok8/small package/small
-# git clone https://github.com/kenzok8/openwrt-packages package/open-packages
+git clone https://github.com/kenzok8/openwrt-packages package/open-packages
 # rm -rf package/open-packages/luci-app-filebrowser
 # git clone https://github.com/xiaozhuai/luci-app-filebrowser.git package/luci-app-filebrowser
 # git clone https://github.com/lisaac/luci-app-diskman.git package/luci-app-diskman
 # git clone https://github.com/cokebar/luci-app-vlmcsd.git package/luci-app-vlmcsd
 # git clone https://github.com/cokebar/openwrt-vlmcsd.git package/openwrt-vlmcsd
 git clone https://github.com/zhengmz/luci-app-zerotier.git package/luci-app-zerotier
-git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/luci-app-unblockneteasemusic
+# git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/luci-app-unblockneteasemusic
 # git clone https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
 # git clone https://github.com/lisaac/luci-app-dockerman.git package/luci-app-dockerman
 # git clone https://github.com/rufengsuixing/luci-app-zerotier.git package/luci-app-zerotier
