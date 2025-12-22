@@ -144,7 +144,7 @@ jobs:
         PACKAGE_SOC: s905d
         #KERNEL_VERSION_NAME: 5.15.95_6.1.15
         KERNEL_VERSION_NAME: 5.10.223
-        
+        KERNEL_AUTO_LATEST: false        
     - name: Generate release tag
       id: tag
       if: steps.organize.outputs.status == 'success' && github.event.inputs.UPLOAD_RELEASE == 'true' && !cancelled()
