@@ -61,15 +61,13 @@ jobs:
         tag: "2025.03.30-0213-lede_n1_OK_latest"                         # 指定以前的 tag（不写 latest 就是以前的）
         fileName: "openwrt-armvirt-64-generic-rootfs.tar.gz"             # 要下载的文件名，支持 "*.tar.gz" 通配
         # extract: true                       # 可选：自动解压（如果文件是 zip/tar/tar.gz）
-        out-file-path: "/mnt/workdir"      # 可选：下载到这个文件夹    
-
-
-
+        out-file-path: "./"      # 可选：下载到这个文件夹    
+        
 
     - name: Build OpenWrt firmware
       uses: unifreq/openwrt_packit@master
       env:
-        OPENWRT_ARMVIRT: /mnt/workdir/*rootfs.tar.gz
+        OPENWRT_ARMVIRT: ./*rootfs.tar.gz
         PACKAGE_SOC: s905d
         #KERNEL_VERSION_NAME: 5.15.95_6.1.15
         KERNEL_VERSION_NAME: 5.10.233
