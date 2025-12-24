@@ -72,7 +72,7 @@ jobs:
         OPENWRT_ARMVIRT: ./*rootfs.tar.gz
         PACKAGE_SOC: s905d
         #KERNEL_VERSION_NAME: 5.15.95_6.1.15
-        KERNEL_VERSION_NAME: 5.10.233
+        KERNEL_VERSION_NAME: 5.10.235
         KERNEL_AUTO_LATEST: false        
     - name: Generate release tag
       id: tag
