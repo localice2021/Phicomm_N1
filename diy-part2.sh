@@ -73,5 +73,7 @@ sed -i "s/'LEDE'/'TR3000L'/g" package/base-files/files/bin/config_generate
 # git apply ../router-config/patches/{0001*,0002*}.patch --directory=feeds/luci
 # 手动执行补丁应用
 # [ -d patches ] && ./scripts/patch.sh
-patch -p1 < $GITHUB_WORKSPACE/patches/999-tr3000-ubootmod-full.patch
+patch -p1 < $GITHUB_WORKSPACE/patches/1000-filogic-mk.patch
+patch -p1 < $GITHUB_WORKSPACE/patches/1001-add-dts.patch
+patch -p1 < $GITHUB_WORKSPACE/patches/1002-profiles-json.patch
 # ------------------------------- Other ends -------------------------------
