@@ -1,0 +1,20 @@
+--- a/target/linux/mediatek/image/filogic.mk
++++ b/target/linux/mediatek/image/filogic.mk
+@@ -245,6 +245,22 @@ define Device/cudy_tr3000-v1
+ endef
+ TARGET_DEVICES += cudy_tr3000-v1
+
++define Device/cudy_tr3000-v1-ubootmod
++  DEVICE_VENDOR := Cudy
++  DEVICE_MODEL := TR3000
++  DEVICE_VARIANT := v1 (ubootmod)
++  DEVICE_DTS := mt7981-cudy_tr3000-v1-ubootmod
++  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
++  DEVICE_PACKAGES := kmod-usb3 kmod-usb2 kmod-mt7981-firmware \
++	kmod-leds-gpio kmod-gpio-button-hotplug
++  IMAGE_SIZE := 32768k
++  UBINIZE_OPTS := -E 5
++  IMAGES += sysupgrade.bin
++  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
++endef
++TARGET_DEVICES += cudy_tr3000-v1-ubootmod
