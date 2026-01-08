@@ -19,7 +19,6 @@
 +endef
 +TARGET_DEVICES += cudy_tr3000-v1-ubootmod
 
-
 --- /dev/null
 +++ b/target/linux/mediatek/dts/mt7981-cudy_tr3000-v1-ubootmod.dts
 @@ -0,0 +1,12 @@
@@ -31,7 +30,6 @@
 +	model = "Cudy TR3000 v1 (ubootmod)";
 +	compatible = "cudy,tr3000-v1-ubootmod", "mediatek,mt7981";
 +};
-
 
 --- a/target/linux/mediatek/filogic/profiles.json
 +++ b/target/linux/mediatek/filogic/profiles.json
