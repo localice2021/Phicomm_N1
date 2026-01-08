@@ -18,4 +18,3 @@
 +  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 +endef
 +TARGET_DEVICES += cudy_tr3000-v1-ubootmod
-
