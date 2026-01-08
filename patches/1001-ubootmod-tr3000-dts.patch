@@ -1,0 +1,11 @@
+--- /dev/null
++++ b/target/linux/mediatek/dts/mt7981-cudy_tr3000-v1-ubootmod.dts
+@@ -0,0 +1,12 @@
++/dts-v1/;
++
++#include "mt7981-cudy_tr3000-v1.dts"
++
++/ {
++	model = "Cudy TR3000 v1 (ubootmod)";
++	compatible = "cudy,tr3000-v1-ubootmod", "mediatek,mt7981";
++};
