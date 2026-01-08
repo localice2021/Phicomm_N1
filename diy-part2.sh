@@ -72,6 +72,6 @@ sed -i "s/'LEDE'/'TR3000L'/g" package/base-files/files/bin/config_generate
 # Apply patch
 # git apply ../router-config/patches/{0001*,0002*}.patch --directory=feeds/luci
 # 手动执行补丁应用
-[ -d patches ] && ./scripts/patch.sh
-# patch -p1 < ../patches/001-your-patch.patch#
+# [ -d patches ] && ./scripts/patch.sh
+patch -p1 < ../patches/*.patch
 # ------------------------------- Other ends -------------------------------
