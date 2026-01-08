@@ -71,11 +71,7 @@ sed -i "s/'LEDE'/'TR3000L'/g" package/base-files/files/bin/config_generate
 
 # Apply patch
 # git apply ../router-config/patches/{0001*,0002*}.patch --directory=feeds/luci
-# 应用根目录patches文件夹下的所有补丁
-if [ -d ../patches ]; then
-    find ../patches -type f -name '*.patch' -print0 | sort -z | xargs -I {} -t -0 patch -p1 -i {}
-fi
-
-# 或单个应用（示例）
+# 手动执行补丁应用
+[ -d patches ] && ./scripts/patch.sh
 # patch -p1 < ../patches/001-your-patch.patch#
 # ------------------------------- Other ends -------------------------------
