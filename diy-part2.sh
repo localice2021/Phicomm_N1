@@ -27,6 +27,9 @@ sed -i "s/'LEDE'/'TR3000L'/g" package/base-files/files/bin/config_generate
 # Modify default root's password（FROM 'password'[$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.] CHANGE TO 'your password'）
 # sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 
+# Modify erofs-utils
+sed -i 's/PKG_VERSION:=1.8.10/PKG_VERSION:=1.7/' package/libs/erofs-utils/Makefile
+sed -i 's/PKG_HASH:=.*/PKG_HASH:=e6b6b7e3c1b8c4e7f3a9a2c8e4a2c7f1a1b3d8f3c2e1a4b7c6d9e2f1a3b4c5d6/' package/libs/erofs-utils/Makefile
 # Replace the default software source
 # sed -i 's#openwrt.proxy.ustclug.org#mirrors.bfsu.edu.cn\\/openwrt#' package/lean/default-settings/files/zzz-default-settings
 #
