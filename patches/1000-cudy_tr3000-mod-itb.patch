@@ -4,14 +4,12 @@
  define Device/cudy_tr3000-mod
    DEVICE_VENDOR := Cudy
    DEVICE_MODEL := TR3000
-   DEVICE_VARIANT := mod
+   DEVICE_VARIANT := (U-Boot mod)
    DEVICE_DTS := mt7981b-cudy-tr3000-mod
    DEVICE_DTS_DIR := ../dts
-   SUPPORTED_DEVICES := cudy,tr3000-mod
    UBINIZE_OPTS := -E 5
    BLOCKSIZE := 128k
    PAGESIZE := 2048
-   IMAGE_SIZE := 65536k
    KERNEL_IN_UBI := 1
 -  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 +  IMAGE/sysupgrade.itb := append-kernel | append-rootfs | pad-rootfs | append-metadata
