@@ -68,30 +68,7 @@ sed -i "s/'LEDE'/'TR3000L'/g" package/base-files/files/bin/config_generate
 # svn co https://github.com/libremesh/lime-packages/trunk/packages/{shared-state-pirania,pirania-app,pirania} package/lime-packages/packages
 # Add to compile options (Add related dependencies according to the requirements of the third-party software package Makefile)
 # sed -i "/DEFAULT_PACKAGES/ s/$/ pirania-app pirania ip6tables-mod-nat ipset shared-state-pirania uhttpd-mod-lua/" target/linux/armvirt/Makefile
-# 添加 ubootmod DTS
-cp target/linux/mediatek/dts/mt7981-cudy_tr3000-v1.dts \
-   target/linux/mediatek/dts/mt7981-cudy_tr3000-v1-ubootmod.dts
-sed -i 's/"cudy,tr3000-v1"/"cudy,tr3000-v1-ubootmod"/' \
-target/linux/mediatek/dts/mt7981-cudy_tr3000-v1-ubootmod.dts
 
-# 添加 ubootmod 到 filogic.mk
-sed -i '/define Device\/cudy_tr3000-v1/a\
-define Device\/cudy_tr3000-v1-ubootmod\n\
-  DEVICE_MODEL := TR3000\n\
-  DEVICE_VARIANT := ubootmod\n\
-  DEVICE_PACKAGES := kmod-usb3 kmod-usb2 kmod-leds-gpio\n\
-  IMAGE/sysupgrade.itb := append-kernel | append-rootfs | pad-rootfs | append-metadata\n\
-endef\n\
-TARGET_DEVICES += cudy_tr3000-v1-ubootmod' \
-target/linux/mediatek/image/filogic.mk
-
-# 添加 ubootmod 到 profiles.json
-sed -i '/"cudy_tr3000-v1"/a\
-    "cudy_tr3000-v1-ubootmod": {\n\
-        "model": "Cudy TR3000 (ubootmod)",\n\
-        "image": "sysupgrade.itb"\n\
-    },' \
-target/linux/mediatek/filogic/profiles.json
 # Apply patch
 # git apply ../router-config/patches/{0001*,0002*}.patch --directory=feeds/luci
 # 手动执行补丁应用
