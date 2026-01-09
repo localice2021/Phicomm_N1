@@ -71,7 +71,7 @@ sed -i "s/'LEDE'/'TR3000L'/g" package/base-files/files/bin/config_generate
 sed -i '/define Device\/cudy_tr3000-mod/,/endef/ s/IMAGE\/sysupgrade.bin/IMAGE\/sysupgrade.itb/' \
 target/linux/mediatek/image/filogic.mk
 sed -i '/define Device\/cudy_tr3000-mod/,/endef/ {
-    /IMAGE\/sysupgrade.itb/! s/IMAGE\/sysupgrade.itb :=.*/IMAGE\/sysupgrade.itb := append-kernel | append-rootfs | pad-rootfs | append-metadata/
+  /IMAGE\/sysupgrade.itb/! a\  IMAGE/sysupgrade.itb := append-kernel | append-rootfs | pad-rootfs | append-metadata
 }' target/linux/mediatek/image/filogic.mk
 # Apply patch
 # git apply ../router-config/patches/{0001*,0002*}.patch --directory=feeds/luci
