@@ -1,10 +1,11 @@
 --- a/target/linux/mediatek/image/filogic.mk	2026-01-09 19:29:52
 +++ b/target/linux/mediatek/image/filogic.mk	2026-01-09 19:32:44
-@@ -407,7 +407,7 @@
+@@ -407,7 +407,8 @@
    BLOCKSIZE := 128k
    PAGESIZE := 2048
    KERNEL_IN_UBI := 1
 -  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
++  DEVICE_FIT := 1
 +  IMAGE/sysupgrade.itb := append-kernel | append-rootfs | pad-rootfs | append-metadata
    DEVICE_PACKAGES := kmod-usb3 kmod-mt7981-firmware mt7981-wo-firmware
  endef
