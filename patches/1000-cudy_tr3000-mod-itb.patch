@@ -1,13 +1,6 @@
---- a/target/linux/mediatek/image/filogic.mk
-+++ b/target/linux/mediatek/image/filogic.mk
-@@ -1,999 +1,999 @@
- define Device/cudy_tr3000-mod
-   DEVICE_VENDOR := Cudy
-   DEVICE_MODEL := TR3000
-   DEVICE_VARIANT := (U-Boot mod)
-   DEVICE_DTS := mt7981b-cudy-tr3000-mod
-   DEVICE_DTS_DIR := ../dts
-   UBINIZE_OPTS := -E 5
+--- a/target/linux/mediatek/image/filogic.mk	2026-01-09 19:29:52
++++ b/target/linux/mediatek/image/filogic.mk	2026-01-09 19:32:44
+@@ -407,7 +407,7 @@
    BLOCKSIZE := 128k
    PAGESIZE := 2048
    KERNEL_IN_UBI := 1
@@ -15,4 +8,4 @@
 +  IMAGE/sysupgrade.itb := append-kernel | append-rootfs | pad-rootfs | append-metadata
    DEVICE_PACKAGES := kmod-usb3 kmod-mt7981-firmware mt7981-wo-firmware
  endef
- 
+ TARGET_DEVICES += cudy_tr3000-mod
