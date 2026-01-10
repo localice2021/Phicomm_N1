@@ -36,3 +36,15 @@
 +        };
 +    };
  };
++
++/* FIT-required bootargs */
++&{/} {
++    chosen {
++        bootargs = "console=ttyS0,115200 root=/dev/fit0 rootwait";
++    };
++};
++
++/* FIT-required firmware region */
++&firmware {
++    reg = <0x500000 0x7000000>;
++};
