@@ -94,8 +94,6 @@ jobs:
            rm -rf feeds/packages/utils/v2dat
            rm -rf feeds/packages/lang/golang
            git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang
-           rm -rf feeds/small/geoview
-           git clone https://github.com/snowie2000/geoview.git feeds/small/geoview
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
