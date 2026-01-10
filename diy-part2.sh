@@ -68,6 +68,33 @@ sed -i "s/'LEDE'/'TR3000L'/g" package/base-files/files/bin/config_generate
 # svn co https://github.com/libremesh/lime-packages/trunk/packages/{shared-state-pirania,pirania-app,pirania} package/lime-packages/packages
 # Add to compile options (Add related dependencies according to the requirements of the third-party software package Makefile)
 # sed -i "/DEFAULT_PACKAGES/ s/$/ pirania-app pirania ip6tables-mod-nat ipset shared-state-pirania uhttpd-mod-lua/" target/linux/armvirt/Makefile
+wget https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/target/linux/mediatek/dts/mt7981b-cudy-tr3000-v1-ubootmod.dts \
+  -O target/linux/mediatek/dts/mt7981b-cudy-tr3000-v1-ubootmod.dts
+cat >> target/linux/mediatek/image/filogic.mk << 'EOF'
+
+define Device/cudy_tr3000-v1-ubootmod
+  DEVICE_VENDOR := Cudy
+  DEVICE_MODEL := TR3000
+  DEVICE_VARIANT := v1 (ubootmod 大分区)
+  DEVICE_DTS := mt7981b-cudy-tr3000-v1-ubootmod
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-usb3 kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  KERNEL_IN_UBI := 1
+  UBOOTENV_IN_UBI := 1
+  IMAGES := sysupgrade.itb recovery.itb
+  IMAGE/sysupgrade.itb := append-kernel | fit gzip $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb external-static-with-rootfs | append-metadata
+  endef
+TARGET_DEVICES += cudy_tr3000-v1-ubootmod
+
+EOF
+
+wget https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/target/linux/mediatek/filogic/base-files/lib/upgrade/platform.sh \
+  -O target/linux/mediatek/filogic/base-files/lib/upgrade/platform.sh
+wget https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/target/linux/mediatek/dts/mt7981b-cudy-tr3000-v1.dtsi \
+  -O target/linux/mediatek/dts/mt7981b-cudy-tr3000-v1.dtsi
 # Apply patch
 # git apply ../router-config/patches/{0001*,0002*}.patch --directory=feeds/luci
 # 手动执行补丁应用
