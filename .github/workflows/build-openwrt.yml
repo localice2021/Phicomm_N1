@@ -114,8 +114,8 @@ jobs:
         make defconfig
         # make download -j8
         make -j1 V=s package/feeds/passwall_packages/geoview
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
+        # find dl -size -1024c -exec ls -l {} \;
+        # find dl -size -1024c -exec rm -f {} \;
     - name: Copy custom files
       if: github.event.inputs.COPY_CUSTOM == 'true' 
       run: |
