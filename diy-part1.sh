@@ -7,6 +7,10 @@
 #========================================================================================================================
 
 # Uncomment a feed source
+sed -i 's|https://git.openwrt.org/feed/packages.git|https://github.com/openwrt/packages.git;openwrt-24.10|g' feeds.conf.default
+sed -i 's|https://git.openwrt.org/project/luci.git|https://github.com/openwrt/luci.git;openwrt-24.10|g' feeds.conf.default
+sed -i 's|https://git.openwrt.org/feed/routing.git|https://github.com/openwrt-routing/packages.git;openwrt-24.10|g' feeds.conf.default
+sed -i 's|https://git.openwrt.org/feed/telephony.git|https://github.com/openwrt/telephony.git;openwrt-24.10|g' feeds.conf.default
 # sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
 # sed -i 's/\"#src-git\"/\"src-git\"/g' feeds.conf.default
 sed -i '1i src-git passwall_packages https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git;main' feeds.conf.default
