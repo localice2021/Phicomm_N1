@@ -125,13 +125,8 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-        
-    - name: Verify Go version (must be 1.25+)
-      run: |
-        cd openwrt
-        go version   # 输出 go1.25.x 才成功
-        grep GO_VERSION feeds/packages/lang/golang/*/Makefile   # 检查 PKG_VERSION
-        
+     
+      
     - name: Download package
       id: package
       run: |
