@@ -86,13 +86,19 @@ jobs:
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
+    - name: Replace golang with 1.25 before any update
+      run: |
+        cd openwrt
+        rm -rf feeds/packages/lang/golang
+        rm -rf package/small-packages/{amule,luci-app-bandwidthd,luci-app-dogcom,luci-app-gowebdav,luci-app-nginx-pingos,luci-app-webd,natflow}
+        rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface}
+        git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang
         
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
-           git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang
 
     - name: Install feeds
-      run: cd openwrt && ./scripts/feeds install -a
+      run: cd openwrt && ./scripts/feeds install -a -f
 
     - name: Load custom configuration
       run: |
@@ -101,10 +107,7 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-        rm -rf package/small-packages/{amule,luci-app-bandwidthd,luci-app-dogcom,luci-app-gowebdav,luci-app-nginx-pingos,luci-app-webd,natflow}
-        rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface}
-        ./scripts/feeds install -a
-        
+
     - name: Download package
       id: package
       run: |
@@ -129,7 +132,7 @@ jobs:
         cd openwrt
         echo -e "$(nproc) thread compile"
         # make -j$(nproc) || make -j1 || make -j1 V=s
-        make toolchain/install V=s -j4
+        make toolchain/install -j4
         make package/small-packages/geoview/compile -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
         #grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
