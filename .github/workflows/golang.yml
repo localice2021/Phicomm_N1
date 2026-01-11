@@ -94,6 +94,14 @@ jobs:
         rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface}
         git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang
         
+    - name: Cache OpenWrt Build (toolchain + ccache)
+      uses: DevOpenWRT-Router/Cache-OpenWRT-Builds@main
+      with:
+        toolchain: 'true'      
+        ccache: 'true'         
+        prefix: '${{ github.workspace }}/openwrt'  # 你的 OpenWrt 目录
+        # clean: '${{ github.event.inputs.clean == 'true' }}'  # 手动输入 clean 清缓存
+        
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
@@ -133,7 +141,7 @@ jobs:
         echo -e "$(nproc) thread compile"
         # make -j$(nproc) || make -j1 || make -j1 V=s
         make toolchain/install -j4
-        make package/small-packages/geoview/compile -j1 V=s
+        # make package/small-packages/geoview/compile -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
         #grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         echo "DEVICE_NAME=generic" >> $GITHUB_ENV
