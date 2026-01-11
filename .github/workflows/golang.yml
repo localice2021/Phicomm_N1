@@ -79,20 +79,23 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd openwrt
         git checkout v24.10.5
-        
-    - name: Load custom feeds
-      run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+    
     - name: Replace golang with 1.25 before any update
       run: |
         cd openwrt
         rm -rf feeds/packages/lang/golang
         rm -rf package/small-packages/{amule,luci-app-bandwidthd,luci-app-dogcom,luci-app-gowebdav,luci-app-nginx-pingos,luci-app-webd,natflow}
         rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface}
-        git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang
+        git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang    
+        sed -i 's/^src-git packages/#src-git packages/g' feeds.conf.default
+        sed -i '/lang\/golang/d' feeds.conf.default 
+    - name: Load custom feeds
+      run: |
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
+
         
     - name: Cache OpenWrt Build (toolchain + staging + build + dl + ccache)
       uses: actions/cache@v4
@@ -122,7 +125,13 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-
+        
+    - name: Verify Go version (must be 1.25+)
+      run: |
+        cd openwrt
+        go version   # 输出 go1.25.x 才成功
+        grep GO_VERSION feeds/packages/lang/golang/*/Makefile   # 检查 PKG_VERSION
+        
     - name: Download package
       id: package
       run: |
