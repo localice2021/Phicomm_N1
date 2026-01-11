@@ -94,13 +94,20 @@ jobs:
         rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface}
         git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang
         
-    - name: Cache OpenWrt Build (toolchain + ccache)
-      uses: DevOpenWRT-Router/Cache-OpenWRT-Builds@main
+    - name: Cache OpenWrt Build (toolchain + staging + build + dl + ccache)
+      uses: actions/cache@v4
+      id: cache
       with:
-        toolchain: 'true'      
-        ccache: 'true'         
-        prefix: '${{ github.workspace }}/openwrt'  # 你的 OpenWrt 目录
-        # clean: '${{ github.event.inputs.clean == 'true' }}'  # 手动输入 clean 清缓存
+        path: |
+          openwrt/staging_dir
+          openwrt/build_dir
+          openwrt/dl
+          openwrt/.ccache
+          openwrt/feeds/packages/lang/golang   # 加这个防 Go feed 反复拉
+        key: openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/feeds.conf.default', 'openwrt/.config', 'openwrt/diy*.sh') }}-${{ github.sha }}
+        restore-keys: |
+          openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/feeds.conf.default', 'openwrt/.config') }}-
+          openwrt-cache-${{ runner.os }}-
         
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
