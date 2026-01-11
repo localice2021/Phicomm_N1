@@ -20,7 +20,7 @@
 # sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
 # sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
 # other
-sed -i '/golang/d' feeds.conf.default
+# sed -i '/golang/d' feeds.conf.default
 # rm -rf package/lean/{samba4,luci-app-samba4,luci-app-ttyd}
 # rm -rf package/feeds/luci-app-dockerman
 # git clone https://github.com/lisaac/luci-app-dockerman.git package/luci-app-dockerman
