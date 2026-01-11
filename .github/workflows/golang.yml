@@ -87,7 +87,6 @@ jobs:
         rm -rf package/small-packages/{amule,luci-app-bandwidthd,luci-app-dogcom,luci-app-gowebdav,luci-app-nginx-pingos,luci-app-webd,natflow}
         rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface}
         git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang    
-        sed -i 's/^src-git packages/#src-git packages/g' feeds.conf.default
         sed -i '/lang\/golang/d' feeds.conf.default 
     - name: Load custom feeds
       run: |
@@ -102,15 +101,14 @@ jobs:
       id: cache
       with:
         path: |
-          openwrt/staging_dir
-          openwrt/build_dir
-          openwrt/dl
-          openwrt/.ccache
+          ${{ github.workspace }}/openwrt/staging_dir
+          ${{ github.workspace }}/openwrt/build_dir
+          ${{ github.workspace }}/openwrt/dl
+          ${{ github.workspace }}/openwrt/.ccache
         key: openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}
         restore-keys: |
           openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}-
           openwrt-cache-${{ runner.os }}-
-        save-always: true
         
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
