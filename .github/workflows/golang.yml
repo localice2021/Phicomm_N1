@@ -204,7 +204,8 @@ jobs:
           * Firmware information
           Default IP: 192.168.19.1
           Default username: root
-        artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin
+        # artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin
+        artifacts: ${{ env.FIRMWARE }}/*.itb,${{ env.FIRMWARE }}/*.buildinfo
 
           
     - name: Delete workflow runs
