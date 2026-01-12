@@ -51,9 +51,9 @@
 # rm -rf package/helloworld
 # git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
 
-# git clone https://github.com/kenzok8/small package/small
-# git clone https://github.com/kenzok8/openwrt-packages package/open-packages
-git clone https://github.com/kenzok8/small-package.git package/small-packages
+git clone https://github.com/kenzok8/small package/small
+git clone https://github.com/kenzok8/openwrt-packages package/open-packages
+# git clone https://github.com/kenzok8/small-package.git package/small-packages
 # rm -rf package/open-packages/luci-app-filebrowser
 # git clone https://github.com/xiaozhuai/luci-app-filebrowser.git package/luci-app-filebrowser
 # git clone https://github.com/lisaac/luci-app-diskman.git package/luci-app-diskman
