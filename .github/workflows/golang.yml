@@ -120,7 +120,7 @@ jobs:
           ${{ github.workspace }}/openwrt/build_dir
           ${{ github.workspace }}/openwrt/dl
           ${{ github.workspace }}/openwrt/.ccache
-        key: openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}
+        key: openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}-no-cache-test
         restore-keys: |
           openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}-
           openwrt-cache-${{ runner.os }}-     
