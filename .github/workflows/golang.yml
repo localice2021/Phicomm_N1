@@ -111,19 +111,19 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
         
-    - name: Cache OpenWrt Build (toolchain + staging + build + dl + ccache)
-      uses: actions/cache@v4
-      id: cache
-      with:
-        path: |
-          ${{ github.workspace }}/openwrt/staging_dir
-          ${{ github.workspace }}/openwrt/build_dir
-          ${{ github.workspace }}/openwrt/dl
-          ${{ github.workspace }}/openwrt/.ccache
-        key: openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}
-        restore-keys: |
-          openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}-
-          openwrt-cache-${{ runner.os }}-     
+    #- name: Cache OpenWrt Build (toolchain + staging + build + dl + ccache)
+      #uses: actions/cache@v4
+      #id: cache
+      #with:
+        #path: |
+          #${{ github.workspace }}/openwrt/staging_dir
+          #${{ github.workspace }}/openwrt/build_dir
+          #${{ github.workspace }}/openwrt/dl
+          #${{ github.workspace }}/openwrt/.ccache
+        #key: openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}
+        #restore-keys: |
+          #openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}-
+          #openwrt-cache-${{ runner.os }}-     
       
     - name: Download package
       id: package
