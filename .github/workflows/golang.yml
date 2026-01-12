@@ -51,7 +51,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4 
-
+      
+    - name: Fix apt environment (prevent purge error)
+      run: |
+        sudo apt clean
+        sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+        sudo apt update --fix-missing || true
+        sudo dpkg --configure -a || true   # 修复半配置包
+        sudo apt install -f || true        # 修复依赖
+      
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
