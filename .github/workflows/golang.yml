@@ -80,6 +80,17 @@ jobs:
         cd openwrt
         git checkout v24.10.5
     
+
+    - name: Load custom feeds
+      run: |
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
+       
+    - name: Update feeds
+      run: cd openwrt && ./scripts/feeds update -a
+      
     - name: Replace golang with 1.25 before any update
       run: |
         cd openwrt
@@ -88,31 +99,7 @@ jobs:
         rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface}
         git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang    
         sed -i '/lang\/golang/d' feeds.conf.default 
-    - name: Load custom feeds
-      run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
-
         
-    - name: Cache OpenWrt Build (toolchain + staging + build + dl + ccache)
-      uses: actions/cache@v4
-      id: cache
-      with:
-        path: |
-          ${{ github.workspace }}/openwrt/staging_dir
-          ${{ github.workspace }}/openwrt/build_dir
-          ${{ github.workspace }}/openwrt/dl
-          ${{ github.workspace }}/openwrt/.ccache
-        key: openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}
-        restore-keys: |
-          openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}-
-          openwrt-cache-${{ runner.os }}-
-        
-    - name: Update feeds
-      run: cd openwrt && ./scripts/feeds update -a
-
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a -f
 
@@ -142,6 +129,20 @@ jobs:
         cp $GITHUB_WORKSPACE/ubootmod/mt7981b-cudy-tr3000-v1.dts openwrt/target/linux/mediatek/dts/
         cp $GITHUB_WORKSPACE/ubootmod/mt7981b-cudy-tr3000-v1.dtsi openwrt/target/linux/mediatek/dts/
         cp $GITHUB_WORKSPACE/ubootmod/mt7981b-abt-asr3000-ubootmod.dts openwrt/target/linux/mediatek/dts/
+        
+    - name: Cache OpenWrt Build (toolchain + staging + build + dl + ccache)
+      uses: actions/cache@v4
+      id: cache
+      with:
+        path: |
+          ${{ github.workspace }}/openwrt/staging_dir
+          ${{ github.workspace }}/openwrt/build_dir
+          ${{ github.workspace }}/openwrt/dl
+          ${{ github.workspace }}/openwrt/.ccache
+        key: openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}
+        restore-keys: |
+          openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}-
+          openwrt-cache-${{ runner.os }}-
         
     - name: Compile the firmware
       id: compile
