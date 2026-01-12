@@ -130,7 +130,8 @@ jobs:
       run: |
         cd openwrt
         rm -rf package/small-packages/{amule,luci-app-bandwidthd,luci-app-dogcom,luci-app-gowebdav,luci-app-nginx-pingos,luci-app-webd,natflow}
-        rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface}        
+        rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface,python-gevent,python-twisted}        
+        rm -rf package/feeds/luci/luci-app-radicale
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
