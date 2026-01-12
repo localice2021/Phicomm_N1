@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build OpenWrt
+name: debug golang ver
 
 on:
   repository_dispatch:
@@ -51,7 +51,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4 
-
+     
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -61,7 +61,9 @@ jobs:
           sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
           sudo -E apt-get -y update
           sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-          sudo -E apt-get -y install $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
+          # sudo -E apt-get -y install $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
+          curl -fsSL https://raw.githubusercontent.com/0118Add/Openwrt-CI/main/depends-ubuntu-2204 -o deps.txt
+          sudo apt-get install -y $(cat deps.txt)
           sudo -E systemctl daemon-reload
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
@@ -79,24 +81,25 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd openwrt
         git checkout v24.10.5
-        
+    
+
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
+       
+    - name: Update feeds
+      run: cd openwrt && ./scripts/feeds update -a
+      
     - name: Replace golang with 1.25 before any update
       run: |
         cd openwrt
         rm -rf feeds/packages/lang/golang
-        rm -rf package/small-packages/{amule,luci-app-bandwidthd,luci-app-dogcom,luci-app-gowebdav,luci-app-nginx-pingos,luci-app-webd,natflow}
-        rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface}
-        git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang
+        git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang    
+        sed -i '/lang\/golang/d' feeds.conf.default 
         
-    - name: Update feeds
-      run: cd openwrt && ./scripts/feeds update -a
-
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a -f
 
@@ -107,11 +110,27 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-
+        
+    #- name: Cache OpenWrt Build (toolchain + staging + build + dl + ccache)
+      #uses: actions/cache@v4
+      #id: cache
+      #with:
+        #path: |
+          #${{ github.workspace }}/openwrt/staging_dir
+          #${{ github.workspace }}/openwrt/build_dir
+          #${{ github.workspace }}/openwrt/dl
+          #${{ github.workspace }}/openwrt/.ccache
+        #key: openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}
+        #restore-keys: |
+          #openwrt-cache-${{ runner.os }}-${{ hashFiles('openwrt/.config') }}-
+          #openwrt-cache-${{ runner.os }}-     
+      
     - name: Download package
       id: package
       run: |
         cd openwrt
+        rm -rf package/small-packages/{amule,luci-app-bandwidthd,luci-app-dogcom,luci-app-gowebdav,luci-app-nginx-pingos,luci-app-webd,natflow}
+        rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface}        
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
@@ -126,14 +145,18 @@ jobs:
         cp $GITHUB_WORKSPACE/ubootmod/mt7981b-cudy-tr3000-v1.dtsi openwrt/target/linux/mediatek/dts/
         cp $GITHUB_WORKSPACE/ubootmod/mt7981b-abt-asr3000-ubootmod.dts openwrt/target/linux/mediatek/dts/
         
+
+        
     - name: Compile the firmware
       id: compile
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        # make -j$(nproc) || make -j1 || make -j1 V=s
-        make toolchain/install -j4
-        make package/small-packages/geoview/compile -j1 V=s
+        make -j$(nproc) || make -j1 || make -j1 V=s
+        # make toolchain/install -j4
+        # make package/kernel/gpio-button-hotplug V=s -j1
+        # make target/linux/prepare V=s -j1 
+        # make package/small/luci-app-passwall/compile -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
         #grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         echo "DEVICE_NAME=generic" >> $GITHUB_ENV
@@ -181,14 +204,9 @@ jobs:
           * Firmware information
           Default IP: 192.168.19.1
           Default username: root
-        artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin
-        
-    - name: Clean up server space
-      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
-      run: |
-        cd openwrt/
-        rm -rf $(ls . | grep -v "^bin$" | xargs) 2>/dev/null
-        df -hT ${PWD}    
+        # artifacts: ${{ env.FIRMWARE }}/*.manifest,${{ env.FIRMWARE }}/*.buildinfo,${{ env.FIRMWARE }}/*.bin
+        artifacts: ${{ env.FIRMWARE }}/*.itb,${{ env.FIRMWARE }}/*.buildinfo
+
           
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
