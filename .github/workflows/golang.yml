@@ -51,15 +51,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4 
-      
-    - name: Fix apt environment (prevent purge error)
-      run: |
-        sudo apt clean
-        sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
-        sudo apt update --fix-missing || true
-        sudo dpkg --configure -a || true   # 修复半配置包
-        sudo apt install -f || true        # 修复依赖
-      
+     
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -69,7 +61,9 @@ jobs:
           sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
           sudo -E apt-get -y update
           sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-          sudo -E apt-get -y install $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
+          # sudo -E apt-get -y install $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
+          curl -fsSL https://raw.githubusercontent.com/0118Add/Openwrt-CI/main/depends-ubuntu-2204 -o deps.txt
+          sudo apt-get install -y $(cat deps.txt)
           sudo -E systemctl daemon-reload
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
