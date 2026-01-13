@@ -99,6 +99,10 @@ jobs:
         rm -rf feeds/packages/lang/golang
         git clone https://github.com/kenzok8/golang -b 1.25 feeds/packages/lang/golang    
         sed -i '/lang\/golang/d' feeds.conf.default 
+        git clone --depth 1 --filter=blob:none --sparse https://github.com/immortalwrt/luci.git package/luci-app-zerotier
+        cd package/luci-app-zerotier
+        git sparse-checkout init --cone
+        git sparse-checkout set package/luci-app-zerotier
         
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a -f
