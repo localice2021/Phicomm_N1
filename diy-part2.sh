@@ -57,8 +57,8 @@ git clone https://github.com/kenzok8/small-package.git package/small-packages
 # rm -rf package/open-packages/luci-app-filebrowser
 # git clone https://github.com/xiaozhuai/luci-app-filebrowser.git package/luci-app-filebrowser
 # git clone https://github.com/lisaac/luci-app-diskman.git package/luci-app-diskman
-# git clone https://github.com/cokebar/luci-app-vlmcsd.git package/luci-app-vlmcsd
-# git clone https://github.com/cokebar/openwrt-vlmcsd.git package/openwrt-vlmcsd
+git clone https://github.com/cokebar/luci-app-vlmcsd.git package/luci-app-vlmcsd
+git clone https://github.com/cokebar/openwrt-vlmcsd.git package/openwrt-vlmcsd
 # git clone https://github.com/rufengsuixing/luci-app-zerotier.git package/luci-app-zerotier
 # git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/luci-app-unblockneteasemusic
 # git clone https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
