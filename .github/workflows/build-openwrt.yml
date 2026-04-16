@@ -135,7 +135,7 @@ jobs:
       id: package
       run: |
         cd openwrt
-        rm -rf feeds/packages/net/{alist,adguardhome,mosdns,xray*,v2ray*,sing*,smartdns} feeds/packages/utils/v2dat feeds/packages/lang/golang
+        # rm -rf feeds/packages/net/{alist,adguardhome,mosdns,xray*,v2ray*,sing*,smartdns} feeds/packages/utils/v2dat feeds/packages/lang/golang
         rm -rf package/small-packages/{amule,libnftnl,nftables,luci-app-bandwidthd,luci-app-dogcom,luci-app-gowebdav,luci-app-nginx-pingos,luci-app-webd,natflow}
         rm -rf package/feeds/packages/{exim,onionshare-cli,python-zope-event,python-zope-interface,python-gevent,python-twisted}        
         rm -rf package/feeds/luci/luci-app-radicale
