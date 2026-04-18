@@ -82,7 +82,7 @@ jobs:
         # git clone https://git.openwrt.org/openwrt/openwrt.git
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd openwrt
-        git checkout v24.10.5
+        git checkout v24.10.6
     
 
     - name: Load custom feeds
