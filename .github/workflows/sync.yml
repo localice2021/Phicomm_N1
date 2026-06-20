@@ -8,7 +8,7 @@ jobs:
     steps:
     - name: Login to Tencent Registry
       run: |
-        docker login ://tencentyun.com --username=${{ secrets.TENCENT_REGISTRY_USER }} --password=${{ secrets.TENCENT_REGISTRY_PASSWORD }}
+        docker login ccr.ccs.tencentyun.com --username=${{ secrets.TENCENT_REGISTRY_USER }} --password=${{ secrets.TENCENT_REGISTRY_PASSWORD }}
     
     - name: Pull and Push Image
       run: |
