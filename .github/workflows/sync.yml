@@ -1,0 +1,22 @@
+name: Sync Image to Tencent
+on:
+  workflow_dispatch: # 支持你在网页上手动点击按钮触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Login to Tencent Registry
+      run: |
+        docker login ://tencentyun.com --username=${{ secrets.TENCENT_REGISTRY_USER }} --password=${{ secrets.TENCENT_REGISTRY_PASSWORD }}
+    
+    - name: Pull and Push Image
+      run: |
+        # 1. 借助 GitHub 的海外网络，秒速下载你要的个人镜像（这里以百度网盘为例）
+        docker pull johngong/baidunetdisk:latest
+        
+        # 2. 标记打上你腾讯云仓库的标签（请务必把下一行的【你的命名空间名字】换掉）
+        docker tag johngong/baidunetdisk:latest ://tencentyun.com/你的命名空间名字/baidunetdisk:latest
+        
+        # 3. 把镜像推送到你私有的腾讯云内网中转站
+        docker push ://tencentyun.com/你的命名空间名字/baidunetdisk:latest
