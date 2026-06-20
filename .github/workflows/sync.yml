@@ -8,7 +8,7 @@ jobs:
     steps:
     - name: Login to Tencent Registry
       run: |
-        docker login ccr.ccs.tencentyun.com --username=${{ secrets.TENCENT_REGISTRY_USER }} --password=${{ secrets.TENCENT_REGISTRY_PASSWORD }}
+        echo "${{ secrets.TENCENT_REGISTRY_PASSWORD }}" | docker login ccr.ccs.tencentyun.com --username=${{ secrets.TENCENT_REGISTRY_USER }} --password-stdin
     
     - name: Pull and Push Image
       run: |
@@ -16,7 +16,7 @@ jobs:
         docker pull johngong/baidunetdisk:latest
         
         # 2. 标记打上你腾讯云仓库的标签（请务必把下一行的【你的命名空间名字】换掉）
-        docker tag johngong/baidunetdisk:latest ://tencentyun.com/myhub_2026/baidunetdisk:latest
+        docker tag johngong/baidunetdisk:latest ccr.ccs.tencentyun.com/myhub_2026/baidunetdisk:latest
         
         # 3. 把镜像推送到你私有的腾讯云内网中转站
-        docker push ://tencentyun.com/myhub_2026/baidunetdisk:latest
+        docker push ccr.ccs.tencentyun.com/myhub_2026/baidunetdisk:latest
