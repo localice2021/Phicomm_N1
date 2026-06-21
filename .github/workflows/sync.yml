@@ -16,7 +16,7 @@ jobs:
         docker pull pgvector/pgvector:pg16
         
         # 2. 标记打上你腾讯云仓库的标签（请务必把下一行的【你的命名空间名字】换掉）
-        docker tag docker pull pgvector/pgvector:pg16 ccr.ccs.tencentyun.com/myhub_2026/pgvector:pg16
+        docker tag pgvector/pgvector:pg16 ccr.ccs.tencentyun.com/myhub_2026/pgvector:pg16
         
         # 3. 把镜像推送到你私有的腾讯云内网中转站
         docker push ccr.ccs.tencentyun.com/myhub_2026/pgvector:pg16
